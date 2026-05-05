@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filosofi Anak I · Scrapbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Caveat:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+body { background: #FFF9F0; }
+
+.organic-bg { position:fixed;inset:0;pointer-events:none;overflow:hidden; }
+.blob { position:absolute;border-radius:61% 39% 46% 54%/43% 57% 43% 57%;filter:blur(60px);opacity:.5; }
+.blob-1 { width:400px;height:400px;background:rgba(242,169,59,.12);top:-100px;right:-80px;animation:morphBlob 12s ease-in-out infinite; }
+.blob-2 { width:350px;height:350px;background:rgba(232,68,58,.08);bottom:-50px;left:-80px;animation:morphBlob 15s ease-in-out infinite reverse; }
+@keyframes morphBlob {
+  0%,100% { border-radius:61% 39% 46% 54%/43% 57% 43% 57%; }
+  50%      { border-radius:42% 58% 65% 35%/58% 42% 58% 42%; }
+}
+
+.page-ribbon { background:linear-gradient(135deg,var(--koi-gold) 0%,var(--koi-orange) 100%);color:white;padding:1.5rem 0;position:relative;overflow:hidden; }
+.page-ribbon::after { content:'子供';font-family:'Shippori Mincho',serif;position:absolute;right:-1rem;top:-1rem;font-size:5rem;color:rgba(255,255,255,.1); }
+.ribbon-num   { font-family:'Shippori Mincho',serif;font-size:5rem;font-weight:800;color:rgba(255,255,255,.15);line-height:1; }
+.ribbon-title { font-family:'Shippori Mincho',serif;font-size:clamp(1.3rem,2.8vw,2rem);font-weight:800;color:white; }
+.ribbon-sub   { font-family:'Caveat',cursive;font-size:1rem;color:rgba(255,255,255,.8);letter-spacing:.1em;margin-top:.3rem; }
+
+.pull-quote { border-left:5px solid var(--koi-gold);padding:1.5rem 1.8rem;background:rgba(242,169,59,.06);border-radius:0 12px 12px 0; }
+.pull-quote p { font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.1rem,2.2vw,1.5rem);color:var(--ink);line-height:1.75;margin:0; }
+.pull-quote cite { font-family:'Caveat',cursive;font-size:.88rem;color:#888;display:block;margin-top:.6rem; }
+
+.reason-card { background:white;border-radius:20px;padding:1.6rem 1.4rem;border:1px solid rgba(26,39,68,.06);transition:all .3s;height:100%;position:relative;overflow:hidden; }
+.reason-card::after { content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--rc-color,var(--koi-gold));transform:scaleX(0);transform-origin:left;transition:transform .4s; }
+.reason-card:hover::after { transform:scaleX(1); }
+.reason-card:hover { transform:translateY(-5px);box-shadow:0 16px 40px rgba(26,39,68,.1); }
+.rc-num { font-family:'Shippori Mincho',serif;font-size:2.8rem;font-weight:800;color:var(--rc-color,var(--koi-gold));opacity:.2;line-height:1;margin-bottom:.4rem; }
+.reason-card h5 { font-family:'Shippori Mincho',serif;font-size:1rem;font-weight:700;color:var(--ink);margin:.2rem 0 .5rem; }
+.reason-card p { font-size:.83rem;color:#666;line-height:1.8;margin:0; }
+
+/* ═══════════════════════════════════════
+   SCRAPBOOK POLAROID STACK
+═══════════════════════════════════════ */
+
+/* papan scrapbook — area tumpukan */
+.scrapboard {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  /* tekstur kertas linen tipis */
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 28px,
+      rgba(26,39,68,.025) 28px,
+      rgba(26,39,68,.025) 29px
+    ),
+    linear-gradient(135deg,#FBF5E8,#F5EDD8);
+  border-radius: 16px;
+  border: 1px solid rgba(26,39,68,.07);
+  padding: 8px;
+  box-shadow:
+    inset 0 2px 8px rgba(26,39,68,.04),
+    0 4px 20px rgba(26,39,68,.08);
+}
+
+/* satu kartu polaroid */
+.pol {
+  position: absolute;
+  background: white;
+  border-radius: 3px;
+  /* shadow bertumpuk = kedalaman */
+  box-shadow:
+    0 2px 4px rgba(26,39,68,.12),
+    0 6px 16px rgba(26,39,68,.1),
+    0 0 0 1px rgba(26,39,68,.04);
+  cursor: pointer;
+  transition:
+    transform .4s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .3s ease,
+    z-index 0s .4s;
+  user-select: none;
+}
+.pol:hover {
+  box-shadow:
+    0 8px 20px rgba(26,39,68,.18),
+    0 20px 50px rgba(26,39,68,.15),
+    0 0 0 1px rgba(26,39,68,.06);
+  z-index: 99 !important;
+  transition:
+    transform .4s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .3s ease,
+    z-index 0s;
+}
+
+/* foto area — square dengan 8px padding atas/samping, lebih banyak bawah untuk caption */
+.pol-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #EDE8E0;
+  position: relative;
+}
+.pol-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute; inset: 0;
+}
+
+/* padding polaroid: foto + caption strip */
+.pol-inner {
+  padding: 7px 7px 0 7px;
+}
+.pol-caption {
+  padding: 6px 6px 10px;
+  font-family: 'Caveat', cursive;
+  font-size: .78rem; color: #999;
+  text-align: center;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ── washi tape ── */
+.tape {
+  position: absolute;
+  height: 16px; border-radius: 1px;
+  pointer-events: none; z-index: 20;
+  opacity: .8;
+}
+/* tekstur tape: garis-garis transparan */
+.tape::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(255,255,255,.35) 3px,
+    rgba(255,255,255,.35) 4px
+  );
+}
+.t-gold  { background: #F2C96B; }
+.t-red   { background: #F4845F; }
+.t-teal  { background: #7ECEC6; }
+.t-pink  { background: #F7C5C0; }
+.t-blue  { background: #A8C8F0; }
+
+/* tape positions */
+.t-top   { width:42px; left:50%; transform:translateX(-50%); top:-8px; }
+.t-tl    { width:36px; left:4px; top:-8px; transform:rotate(-32deg); transform-origin:left center; }
+.t-tr    { width:36px; right:4px; top:-8px; transform:rotate(32deg); transform-origin:right center; }
+.t-bl    { width:36px; left:4px; bottom:-8px; transform:rotate(32deg); transform-origin:left center; }
+
+/* ── dekorasi stiker ── */
+.stkr {
+  position: absolute;
+  pointer-events: none;
+  z-index: 25;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.2));
+}
+
+/* ── posisi & rotasi 4 polaroid (sama dengan filosofi2) ── */
+
+/* Pol A — besar, kiri-tengah, miring kiri */
+.pol-a {
+  width: 185px;
+  top: 20px;
+  left: 18px;
+  transform: rotate(-5deg);
+  z-index: 2;
+}
+.pol-a:hover { transform: rotate(-5deg) scale(1.05) translateY(-8px); }
+
+/* Pol B — kanan atas, miring kanan */
+.pol-b {
+  width: 155px;
+  top: 14px;
+  right: 14px;
+  transform: rotate(7deg);
+  z-index: 1;
+}
+.pol-b:hover { transform: rotate(7deg) scale(1.06) translateY(-6px); }
+
+/* Pol C — bawah kanan, sedikit miring kiri */
+.pol-c {
+  width: 162px;
+  bottom: 18px;
+  right: 20px;
+  transform: rotate(-4deg);
+  z-index: 3;
+}
+.pol-c:hover { transform: rotate(-4deg) scale(1.06) translateY(-6px); }
+
+/* Pol D — bawah kiri, sangat miring kanan */
+.pol-d {
+  width: 140px;
+  bottom: 14px;
+  left: 70px;
+  transform: rotate(9deg);
+  z-index: 4;
+}
+.pol-d:hover { transform: rotate(9deg) scale(1.06) translateY(-6px); }
+</style>
+</head>
+<body>
+<div class="organic-bg"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+<div class="reading-progress" id="readingProgress"></div>
+<div id="petalsContainer"></div>
+
+<nav class="page-nav">
+  <a href="index.html"></a>
+  <a href="koinobori.html"></a>
+  <a href="filosofi1.html" class="active"></a>
+  <a href="filosofi2.html"></a>
+  <a href="eorini.html"></a>
+  <a href="festival.html"></a>
+  <a href="penutup.html"></a>
+</nav>
+
+<div class="page-ribbon">
+  <div class="container">
+    <div class="d-flex align-items-end gap-3" style="position:relative;z-index:1;">
+      <span class="ribbon-num">03</span>
+      <div>
+        <h2 class="ribbon-title">Mengapa Anak-anak Dirayakan?</h2>
+        <p class="ribbon-sub">Filosofi di Balik Sebuah Hari · 子供を称えることの哲学</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-5">
+
+  <!-- pull quote -->
+  <div class="row justify-content-center mb-5 reveal">
+    <div class="col-lg-9">
+      <div class="pull-quote">
+        <p>"Setiap anak adalah bukti bahwa dunia masih percaya pada kesempatan baru. Merayakan hari anak bukan tentang memberi hadiah tapi ini tentang mengakui bahwa ada yang berharga di dalam diri mereka, sebelum dunia sempat memberi tahu mereka sebaliknya."</p>
+        <cite>— Renungan dari tradisi Kodomo no Hi · こどもの日の精神</cite>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-5 align-items-start">
+
+    <!-- ══ KIRI: scrapbook ══ -->
+    <div class="col-lg-5 reveal-left">
+
+      <span class="section-label">Jepang · こどもの日</span>
+      
+
+      <!-- PAPAN SCRAPBOOK -->
+      <div class="scrapboard">
+
+        <!-- ── Polaroid A (belakang kiri) ── -->
+        <div class="pol pol-a">
+          <div class="tape t-gold t-tl"></div>
+          <div class="pol-inner">
+            <div class="pol-photo">
+              <!-- Ganti foto1.jpg dengan nama file fotomu -->
+              <img src="foto/janak1.jpg" alt="foto 1">
+            </div>
+          </div>
+          <div class="pol-caption">koinobori 🎏</div>
+        </div>
+
+        <!-- ── Polaroid B (belakang kanan) ── -->
+        <div class="pol pol-b">
+          <div class="tape t-pink t-tr"></div>
+          <div class="pol-inner">
+            <div class="pol-photo">
+              <!-- Ganti foto2.jpg dengan nama file fotomu -->
+              <img src="foto/janak2.jpg" alt="foto 2">
+            </div>
+          </div>
+          <div class="pol-caption">お祭り ⛩️</div>
+        </div>
+
+        <!-- ── Polaroid C (tengah / utama) ── -->
+        <div class="pol pol-c">
+          <div class="tape t-red t-top"></div>
+          <div class="pol-inner">
+            <div class="pol-photo">
+              <!-- Ganti foto3.jpg dengan nama file fotomu -->
+              <img src="foto/janak3.jpg" alt="foto 3">
+            </div>
+          </div>
+          <div class="pol-caption">こどもの日 🌸</div>
+        </div>
+
+        <!-- ── Polaroid D (depan kiri bawah) ── -->
+        <div class="pol pol-d">
+          <div class="tape t-teal t-bl"></div>
+          <div class="pol-inner">
+            <div class="pol-photo">
+              <!-- Ganti foto4.jpg dengan nama file fotomu -->
+              <img src="foto/ritsuki.jpg" alt="foto 4">
+            </div>
+          </div>
+          <div class="pol-caption">柏餅 🍡</div>
+        </div>
+
+        <!-- stiker dekorasi -->
+        <span class="stkr" style="top:6px;right:80px;font-size:1.2rem;transform:rotate(12deg);">🌸</span>
+        <span class="stkr" style="bottom:10px;right:14px;font-size:1rem;transform:rotate(-10deg);">✿</span>
+        <span class="stkr" style="bottom:80px;right:18px;font-size:.9rem;transform:rotate(5deg);">🎌</span>
+        <span class="stkr" style="top:8px;left:50%;font-size:.75rem;transform:rotate(-5deg);opacity:.5;">祝</span>
+
+      </div><!-- /scrapboard -->
+
+      <div class="note-paper mt-3" style="padding:1.1rem;">
+        <p class="handwritten" style="font-size:.95rem;color:#888;line-height:1.7;padding-left:1.4rem;">
+          "子供は世界の宝です"<br>
+          <span style="font-size:.78rem;color:#aaa;">— Anak-anak adalah harta dunia —</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- ══ KANAN: kartu alasan ══ -->
+    <div class="col-lg-7 reveal-right">
+      <span class="section-label">Lima Alasan Filosofis</span>
+      <h2 class="big-heading mb-4" style="font-size:clamp(1.5rem,3vw,2.5rem);">
+        Mengapa Anak-anak<br>
+        <em class="serif-italic" style="color:var(--koi-gold);font-weight:400;">Layak Dirayakan</em>
+      </h2>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="reason-card" style="--rc-color:var(--koi-red);">
+            <div class="rc-num">01</div>
+            <h5>Mereka Adalah Pemula yang Jujur</h5>
+            <p>Anak-anak melihat dunia tanpa prasangka. Mereka bertanya bukan untuk terlihat pintar, melainkan karena benar-benar ingin tahu. Kejujuran ini adalah kualitas paling langka yang diam-diam kita rindukan.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="reason-card" style="--rc-color:#4A90D9;">
+            <div class="rc-num">02</div>
+            <h5>Mereka Hadir Sepenuhnya</h5>
+            <p>Tidak ada anak yang bermain sambil memikirkan masa lalu atau masa depan. Mereka ada, utuh, di momen ini. Sesuatu yang justru diperjuangkan orang dewasa sepanjang hidupnya.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="reason-card" style="--rc-color:var(--koi-teal);">
+            <div class="rc-num">03</div>
+            <h5>Mereka Percaya Tanpa Syarat</h5>
+            <p>Kepercayaan anak adalah hal yang paling murni. Mereka percaya bahwa kebaikan itu nyata, bahwa mimpi bisa terwujud, bahwa seseorang layak dicintai begitu saja — apa adanya.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="reason-card" style="--rc-color:var(--koi-gold);">
+            <div class="rc-num">04</div>
+            <h5>Mereka Adalah Masa Depan yang Nyata</h5>
+            <p>Setiap peradaban yang pernah ada memahami ini — investasi pada anak-anak hari ini adalah satu-satunya hal yang dapat dipastikan akan membentuk dunia esok hari.</p>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="reason-card" style="--rc-color:var(--koi-orange);">
+            <div class="rc-num">05</div>
+            <h5>Semangat Anak Adalah Cermin yang Kita Butuhkan</h5>
+            <p>Merayakan anak-anak juga berarti mengingatkan diri sendiri: bahwa di suatu tempat dalam diri kita, masih ada anak yang pernah percaya pada hal-hal besar. Bahwa kita pun pernah berani jatuh dan bangkit tanpa beban. Hari anak adalah undangan untuk pulang — ke versi diri kita yang paling autentik.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /row -->
+
+  <div class="text-center mt-5 reveal">
+    <a href="filosofi2.html" class="next-btn" style="--next-color:var(--koi-gold)"><span>Berikutnya Filosofi Anak</span><span class="next-arrow">→</span></a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="shared.js"></script>
+<script>
+cursor.style.background = 'var(--koi-gold)';
+cursorTrail.style.borderColor = 'var(--koi-gold)';
+
+
+</script>
+</body>
+</html>

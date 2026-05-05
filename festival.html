@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Festival 5 Mei · Scrapbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Caveat:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background:#FFF6ED; }
+
+  .festival-bg {
+    position:fixed; inset:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse at 0% 0%, rgba(232,68,58,.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 100%, rgba(200,16,46,.05) 0%, transparent 50%);
+  }
+
+  /* ribbon */
+  .page-ribbon {
+    background: linear-gradient(90deg,var(--koi-red) 0%,var(--koi-orange) 50%,var(--koi-gold) 100%);
+    color:white; padding:1.5rem 0; position:relative; overflow:hidden;
+  }
+  .ribbon-num { font-family:'Shippori Mincho',serif;font-size:5rem;font-weight:800;color:rgba(255,255,255,.15);line-height:1; }
+  .ribbon-title { font-family:'Shippori Mincho',serif;font-size:clamp(1.4rem,3vw,2.2rem);font-weight:800;color:white; }
+  .ribbon-sub { font-family:'Caveat',cursive;font-size:1rem;color:rgba(255,255,255,.85);letter-spacing:.1em;margin-top:.3rem; }
+
+  /* country divider */
+  .country-divider {
+    display:flex; align-items:center; gap:1rem;
+    margin:2.5rem 0 1.5rem;
+  }
+  .country-divider .cd-flag { font-size:2rem; }
+  .country-divider .cd-label {
+    font-family:'Shippori Mincho',serif; font-weight:800;
+    font-size:1.3rem; color:var(--ink);
+  }
+  .country-divider .cd-line {
+    flex:1; height:1px;
+    background:linear-gradient(to right,rgba(26,39,68,.15),transparent);
+  }
+
+  /* festival event cards */
+  .event-card {
+    background:white; border-radius:16px; padding:1.5rem;
+    border:1px solid rgba(26,39,68,.06);
+    transition:all .3s; position:relative; overflow:hidden;
+    height:100%;
+  }
+  .event-card::before {
+    content:''; position:absolute; left:0;top:0;bottom:0;
+    width:4px; background:var(--ev-color,var(--koi-red));
+  }
+  .event-card:hover { transform:translateY(-4px); box-shadow:0 14px 36px rgba(26,39,68,.1); }
+  .event-card .ev-icon { font-size:2rem; margin-bottom:.5rem; display:block; }
+  .event-card h5 {
+    font-family:'Shippori Mincho',serif; font-size:1rem; font-weight:700;
+    color:var(--ink); margin:0 0 .4rem;
+  }
+  .event-card .ev-location {
+    font-family:'Caveat',cursive; font-size:.85rem;
+    color:var(--ev-color,var(--koi-red)); margin-bottom:.5rem;
+  }
+  .event-card p { font-size:.8rem; color:#666; line-height:1.7; margin:0; }
+
+  /* tabs for JP / KR */
+  .tab-pills { display:flex; gap:.5rem; margin-bottom:2rem; }
+  .tab-pill {
+    padding:.5rem 1.4rem; border-radius:50px;
+    font-family:'Shippori Mincho',serif; font-size:.85rem; font-weight:600;
+    border:2px solid rgba(26,39,68,.12); background:white;
+    cursor:pointer; transition:all .25s; color:#666;
+  }
+  .tab-pill.active { background:var(--koi-red); border-color:var(--koi-red); color:white; }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+
+  /* special spotlight */
+  .spotlight {
+    background:var(--koi-navy);
+    border-radius:20px; padding:2rem;
+    position:relative; overflow:hidden;
+  }
+  .spotlight::after {
+    content:''; position:absolute;
+    top:-30%;right:-10%;
+    width:300px; height:300px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(242,169,59,.15) 0%,transparent 70%);
+  }
+  .spotlight h5 {
+    font-family:'Shippori Mincho',serif; font-size:1.1rem; font-weight:800;
+    color:white; margin:0 0 .5rem;
+  }
+  .spotlight p { font-size:.83rem; color:rgba(255,255,255,.65); line-height:1.8; margin:0; }
+  .spotlight .sp-tag {
+    font-family:'Caveat',cursive; color:var(--koi-gold); font-size:.85rem; margin-bottom:.5rem; display:block;
+  }
+</style>
+</head>
+<body>
+<div class="festival-bg"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+<div class="reading-progress" id="readingProgress"></div>
+<div id="petalsContainer"></div>
+
+<nav class="page-nav">
+  <a href="index.html"></a>
+  <a href="koinobori.html"></a>
+  <a href="filosofi1.html"></a>
+  <a href="filosofi2.html"></a>
+  <a href="eorini.html"></a>
+  <a href="festival.html" class="active"></a>
+  <a href="penutup.html"></a>
+</nav>
+
+<!-- RIBBON -->
+<div class="page-ribbon">
+  <div class="container">
+    <div class="d-flex align-items-end gap-3">
+      <span class="ribbon-num">06</span>
+      <div>
+        <h2 class="ribbon-title">Festival 5 Mei — Jepang &amp; Korea</h2>
+        <p class="ribbon-sub">Satu tanggal. Dua bangsa. Satu semangat yang sama. 🎏 🇯🇵 🇰🇷</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-5">
+
+  <!-- Intro -->
+  <div class="row justify-content-center mb-4">
+    <div class="col-lg-8 text-center reveal">
+      <p style="color:#666;font-size:.92rem;line-height:1.95;">
+        Tanggal 5 Mei bukan kebetulan. Dalam penanggalan lunisolar Asia Timur, ini adalah <strong style="color:var(--ink);">"hari ganda kelima"</strong> (五月五日 · hari kelima bulan kelima) — dianggap penuh energi, keberuntungan, dan vitalitas. Itulah mengapa dua bangsa yang terpisah lautan memilih hari yang sama untuk merayakan hal yang paling mereka jaga: anak-anak mereka.
+      </p>
+    </div>
+  </div>
+
+  <!-- TABS JP / KR -->
+  <div class="reveal">
+    <div class="tab-pills justify-content-center">
+      <button class="tab-pill active" onclick="switchTab('jp',this)">🇯🇵 &nbsp;Festival Jepang</button>
+      <button class="tab-pill" onclick="switchTab('kr',this)">🇰🇷 &nbsp;Festival Korea</button>
+      <button class="tab-pill" onclick="switchTab('both',this)">✦ &nbsp;Perbandingan</button>
+    </div>
+
+    <!-- JAPAN TAB -->
+    <div class="tab-panel active" id="tab-jp">
+      <div class="country-divider">
+        <span class="cd-flag">🇯🇵</span>
+        <span class="cd-label">Festival Jepang · こどもの日の祭り</span>
+        <div class="cd-line"></div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card" style="--ev-color:var(--koi-red);">
+            <span class="ev-icon">🎏</span>
+            <h5>Koinobori Festival</h5>
+            <span class="ev-location">📍 Kōnosu, Saitama &amp; seluruh Jepang</span>
+            <p>Ribuan koinobori dikibarkan serentak di sepanjang sungai dan taman. Koinobori terbesar di dunia (100 meter) diangkat di Kōnosu menggunakan crane khusus.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card" style="--ev-color:#8B5CF6;">
+            <span class="ev-icon">🛡️</span>
+            <h5>Pameran Kabuto &amp; Yoroi</h5>
+            <span class="ev-location">📍 Museum &amp; kediaman keluarga</span>
+            <p>Helm samurai (kabuto · 兜) dan zirah (yoroi · 鎧) dipajang di dalam rumah — membawa keberanian dan perlindungan leluhur untuk anak-anak.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card" style="--ev-color:var(--koi-teal);">
+            <span class="ev-icon">🌿</span>
+            <h5>Shobu-yu · 菖蒲湯</h5>
+            <span class="ev-location">📍 Seluruh rumah tangga Jepang</span>
+            <p>Mandi menggunakan bunga iris (shoubu · 菖蒲) yang dipercaya mengusir roh jahat dan memberi kesehatan. Juga karena "shoubu" terdengar seperti kata "menang" (尚武).</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card" style="--ev-color:var(--koi-gold);">
+            <span class="ev-icon">🍡</span>
+            <h5>Kashiwamochi &amp; Chimaki</h5>
+            <span class="ev-location">📍 Warung &amp; rumah tangga</span>
+            <p>Kashiwamochi (柏餅) — kue beras oak — dimakan karena daun oak tidak gugur sebelum tunas baru tumbuh, simbol kesinambungan keluarga. Chimaki adalah versi Kansai-nya.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card" style="--ev-color:var(--koi-orange);">
+            <span class="ev-icon">🎎</span>
+            <h5>Tadaima Musubi</h5>
+            <span class="ev-location">📍 Festival lokal &amp; sekolah</span>
+            <p>Perlombaan dan permainan tradisional untuk anak-anak — dari lomba kite (tako-age · 凧揚げ) hingga permainan tradisional Jepang di ruang terbuka.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card" style="--ev-color:#EC4899;">
+            <span class="ev-icon">🌸</span>
+            <h5>Hanami di Bulan Mei</h5>
+            <span class="ev-location">📍 Taman nasional &amp; tepi sungai</span>
+            <p>Musim sakura sudah lewat, tapi azalea dan wisteria (fuji · 藤) tengah mekar paling indah. Keluarga piknik di bawah kanopi bunga — perayaan musim sekaligus kebersamaan.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spotlight -->
+      <div class="spotlight">
+        <span class="sp-tag">Fakta Menarik · 豆知識</span>
+        <h5>Mengapa Koinobori Berkibar di Luar Rumah?</h5>
+        <p>Secara tradisional, koinobori dikibarkan di luar agar angin — yang dipercaya membawa pesan para dewa — dapat menyentuh setiap ikan dan membawa doa keluarga ke langit. Semakin tinggi ia terbang, semakin kuat doanya sampai.</p>
+      </div>
+    </div>
+
+    <!-- KOREA TAB -->
+    <div class="tab-panel" id="tab-kr">
+      <div class="country-divider">
+        <span class="cd-flag">🇰🇷</span>
+        <span class="cd-label">Festival Korea · 어린이날 행사</span>
+        <div class="cd-line"></div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card" style="--ev-color:#C8102E;">
+            <span class="ev-icon">🎠</span>
+            <h5>Lotte World &amp; Everland</h5>
+            <span class="ev-location">📍 Seoul &amp; Yongin, Gyeonggi</span>
+            <p>Taman hiburan terbesar Korea membuka gerbangnya dengan harga spesial. Antrean panjang berjam-jam adalah pemandangan biasa — tapi setiap menit menunggunya dianggap sepadan.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card" style="--ev-color:#003478;">
+            <span class="ev-icon">🎭</span>
+            <h5>Seoul Children's Grand Park</h5>
+            <span class="ev-location">📍 Gwangjin-gu, Seoul</span>
+            <p>Taman anak terbesar Korea mengadakan festival besar dengan pertunjukan boneka, teater anak, kebun binatang interaktif, dan konser musik khusus anak.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card" style="--ev-color:var(--koi-teal);">
+            <span class="ev-icon">🏟️</span>
+            <h5>Festival Budaya &amp; Pertunjukan</h5>
+            <span class="ev-location">📍 Seluruh kota besar Korea</span>
+            <p>Pertunjukan K-pop khusus anak, musisi jalanan, pameran seni interaktif, dan instalasi permainan pop-up muncul di ruang publik kota-kota besar.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card" style="--ev-color:var(--koi-gold);">
+            <span class="ev-icon">🎁</span>
+            <h5>Tradisi Pemberian Hadiah</h5>
+            <span class="ev-location">📍 Seluruh keluarga Korea</span>
+            <p>Tidak ada anak Korea yang melewatkan 5 Mei tanpa hadiah. Dari mainan hingga buku, dari baju baru hingga perjalanan wisata — ini adalah "hari belanja" terbesar untuk anak di Korea.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card" style="--ev-color:var(--koi-orange);">
+            <span class="ev-icon">🌿</span>
+            <h5>Piknik Keluarga di Alam</h5>
+            <span class="ev-location">📍 Gunung Bukhansan, tepi Han River</span>
+            <p>Keluarga Korea memiliki tradisi piknik di hari cerah — duduk di tikar di tepi Sungai Han atau mendaki gunung bersama. Sederhana, tapi jadi kenangan yang dibawa seumur hidup.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card" style="--ev-color:#9B59B6;">
+            <span class="ev-icon">📚</span>
+            <h5>Festival Buku &amp; Pameran Anak</h5>
+            <span class="ev-location">📍 COEX &amp; ruang pamer kota</span>
+            <p>Menghormati warisan Bang Jeong-hwan, berbagai penerbit dan perpustakaan mengadakan festival buku anak — karena memberi buku adalah cara Korea mengatakan "aku percaya pada masa depanmu."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spotlight -->
+      <div class="spotlight" style="background:linear-gradient(135deg,#C8102E,#8B0020);">
+        <span class="sp-tag">Fakta Menarik · 재미있는 사실</span>
+        <h5>5 Mei: Hari Paling Sibuk di Korea</h5>
+        <p>Setiap tahun, 5 Mei secara konsisten menjadi salah satu dari tiga hari tersibuk di Korea Selatan — melampaui Natal dan Tahun Baru. Sistem transportasi publik Seoul mengoperasikan jadwal khusus, dan taman-taman nasional mencatat jumlah pengunjung tertinggi tahunan mereka.</p>
+      </div>
+    </div>
+
+    <!-- COMPARISON TAB -->
+    <div class="tab-panel" id="tab-both">
+      <div class="country-divider">
+        <span class="cd-flag">✦</span>
+        <span class="cd-label">Jepang vs Korea · Persamaan &amp; Perbedaan</span>
+        <div class="cd-line"></div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-12">
+          <div class="info-card" style="border-left-color:var(--koi-gold);">
+            <span class="section-label" style="color:var(--koi-gold);">Yang Sama</span>
+            <div class="row g-2 mt-1">
+              <div class="col-md-4"><p style="font-size:.83rem;color:#555;margin:0;">✓ &nbsp;Tanggal yang sama: <strong>5 Mei</strong></p></div>
+              <div class="col-md-4"><p style="font-size:.83rem;color:#555;margin:0;">✓ &nbsp;Hari libur nasional resmi</p></div>
+              <div class="col-md-4"><p style="font-size:.83rem;color:#555;margin:0;">✓ &nbsp;Fokus pada kegembiraan anak</p></div>
+              <div class="col-md-4"><p style="font-size:.83rem;color:#555;margin:0;">✓ &nbsp;Perayaan keluarga bersama</p></div>
+              <div class="col-md-4"><p style="font-size:.83rem;color:#555;margin:0;">✓ &nbsp;Berakar dari tradisi Asia Timur</p></div>
+              <div class="col-md-4"><p style="font-size:.83rem;color:#555;margin:0;">✓ &nbsp;Melibatkan pemberian dan berbagi</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="info-card" style="border-left-color:var(--koi-red);">
+            <span class="section-label">🇯🇵 Khas Jepang</span>
+            <ul style="font-size:.83rem;color:#555;line-height:2;padding-left:1.2rem;margin:0;">
+              <li>Koinobori — bendera ikan mas di udara</li>
+              <li>Kabuto &amp; yoroi — pajangan samurai</li>
+              <li>Shobu-yu (mandi iris)</li>
+              <li>Kashiwamochi &amp; chimaki</li>
+              <li>Lebih fokus pada simbol dan ritual</li>
+              <li>Berakar dari tradisi Tango no Sekku</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="info-card" style="border-left-color:#C8102E;">
+            <span class="section-label" style="color:#C8102E;">🇰🇷 Khas Korea</span>
+            <ul style="font-size:.83rem;color:#555;line-height:2;padding-left:1.2rem;margin:0;">
+              <li>Taman hiburan &amp; outing keluarga</li>
+              <li>Tradisi pemberian hadiah yang kuat</li>
+              <li>Festival budaya &amp; pertunjukan publik</li>
+              <li>Lebih spontan &amp; modern dalam ekspresi</li>
+              <li>Dikaitkan dengan gerakan hak anak</li>
+              <li>Berakar dari perjuangan Bang Jeong-hwan</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-5 reveal">
+    <a href="penutup.html" class="next-btn" style="--next-color:var(--koi-red)"><span>Terakhir Sebuah Pesan</span><span class="next-arrow">→</span></a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="shared.js"></script>
+<script>
+cursor.style.background='var(--koi-orange)';
+cursorTrail.style.borderColor='var(--koi-orange)';
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-pill').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

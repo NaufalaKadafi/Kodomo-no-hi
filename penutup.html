@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sebuah Pesan · Scrapbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Caveat:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background:var(--koi-navy); min-height:100vh; }
+
+  /* deep night sky */
+  .night-sky {
+    position:fixed; inset:0;
+    background: linear-gradient(180deg,#050D1E 0%,#0D1B35 40%,#1A2744 80%,rgba(232,68,58,.1) 100%);
+    pointer-events:none;
+  }
+  #stars2 { position:fixed; inset:0; pointer-events:none; }
+
+  /* fireflies */
+  #fireflies { position:fixed; inset:0; pointer-events:none; }
+
+  /* floating lanterns */
+  .lanterns { position:fixed; inset:0; pointer-events:none; }
+
+  /* main content */
+  .closing-wrap {
+    position:relative; z-index:10;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    min-height:100vh; padding:5rem 1rem;
+  }
+
+  /* envelope / letter card */
+  .letter-card {
+    background:rgba(255,255,255,.04);
+    backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:24px;
+    padding:4rem 3.5rem;
+    max-width:680px; width:100%;
+    text-align:center;
+    position:relative; overflow:hidden;
+  }
+  .letter-card::before {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(135deg,rgba(242,169,59,.04) 0%,transparent 60%);
+    pointer-events:none;
+  }
+
+  .letter-eyebrow {
+    font-family:'Shippori Mincho',serif;
+    font-size:.72rem; letter-spacing:.55em;
+    text-transform:uppercase; color:rgba(255,255,255,.25);
+    margin-bottom:2rem; display:block;
+  }
+
+  .letter-to {
+    font-family:'Shippori Mincho',serif; font-weight:800;
+    font-size:clamp(1.6rem,4vw,2.8rem);
+    color:white; line-height:1.3; margin-bottom:.4rem;
+  }
+  .letter-to .name-highlight {
+    color:var(--koi-gold);
+    text-shadow:0 0 30px rgba(242,169,59,.4);
+  }
+
+  .letter-sub {
+    font-family:'Caveat',cursive; font-size:1.1rem;
+    color:rgba(255,255,255,.4); letter-spacing:.15em;
+    margin-bottom:2.5rem; display:block;
+  }
+
+  .letter-divider {
+    width:50px; height:1px;
+    background:rgba(255,255,255,.15);
+    margin:0 auto 2.5rem;
+  }
+
+  .letter-body {
+    font-family:'Playfair Display',serif; font-style:italic;
+    font-size:clamp(.95rem,1.8vw,1.15rem);
+    color:rgba(255,255,255,.65);
+    line-height:2; text-align:left;
+    position:relative; z-index:1;
+  }
+  .letter-body .em-line {
+    display:block; margin:1.2rem 0;
+    color:rgba(255,255,255,.85);
+  }
+  .letter-body .gold-line {
+    color:var(--koi-gold); font-size:1.05em;
+    display:block; margin:1.5rem 0 .5rem;
+  }
+  .letter-body .faint-line {
+    font-size:.88em; color:rgba(255,255,255,.35);
+    font-style:normal; font-family:'Caveat',cursive;
+    letter-spacing:.05em; display:block;
+  }
+
+  .letter-footer {
+    margin-top:2.5rem; padding-top:1.5rem;
+    border-top:1px solid rgba(255,255,255,.08);
+  }
+  .letter-sign {
+    font-family:'Caveat',cursive;
+    font-size:1.8rem; color:var(--koi-gold);
+    line-height:1.3;
+  }
+  .letter-sign small {
+    display:block; font-size:1rem;
+    color:rgba(255,255,255,.25); margin-top:.3rem;
+  }
+
+  /* icons footer */
+  .icon-footer {
+    display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap;
+    margin-top:3rem;
+  }
+  .icon-footer-item { text-align:center; }
+  .icon-footer-item .if-icon {
+    font-family:'Shippori Mincho',serif;
+    font-size:1.8rem; color:var(--koi-gold);
+  }
+  .icon-footer-item p {
+    font-family:'Caveat',cursive;
+    font-size:.78rem; color:rgba(255,255,255,.25);
+    margin:.3rem 0 0;
+  }
+
+  /* back to start */
+  .back-link {
+    font-family:'Caveat',cursive;
+    font-size:.9rem; color:rgba(255,255,255,.2);
+    text-decoration:none; letter-spacing:.15em;
+    transition:color .3s;
+    margin-top:2rem; display:inline-block;
+  }
+  .back-link:hover { color:rgba(255,255,255,.5); }
+
+  /* ribbon minimal di atas */
+  .page-ribbon-min {
+    background:rgba(255,255,255,.03);
+    border-bottom:1px solid rgba(255,255,255,.05);
+    padding:.8rem 0;
+    position:relative; z-index:10;
+  }
+  .ribbon-num-min { font-family:'Shippori Mincho',serif;font-size:2.5rem;font-weight:800;color:rgba(255,255,255,.1);line-height:1; }
+  .ribbon-label { font-family:'Caveat',cursive;font-size:1rem;color:rgba(255,255,255,.25); letter-spacing:.2em; }
+</style>
+</head>
+<body>
+<div class="night-sky"></div>
+<div id="stars2"></div>
+<div id="fireflies"></div>
+<div class="lanterns" id="lanterns"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+<div class="reading-progress" id="readingProgress"></div>
+<div id="petalsContainer"></div>
+
+<nav class="page-nav">
+  <a href="index.html"></a>
+  <a href="koinobori.html"></a>
+  <a href="filosofi1.html"></a>
+  <a href="filosofi2.html"></a>
+  <a href="eorini.html"></a>
+  <a href="festival.html"></a>
+  <a href="penutup.html" class="active"></a>
+</nav>
+
+<!-- Ribbon minimal -->
+<div class="page-ribbon-min">
+  <div class="container d-flex align-items-center gap-3">
+    <span class="ribbon-num-min">08</span>
+    <span class="ribbon-label">SEBUAH PESAN · A NOTE ON THIS DAY</span>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="closing-wrap">
+  <div class="container d-flex justify-content-center">
+    <div class="letter-card reveal">
+      <span class="letter-eyebrow">Sebuah Catatan di Hari yang Istimewa</span>
+
+      <h2 class="letter-to">
+        Selamat ulang tahun,<br>
+        <span class="name-highlight">Tiqok.</span>
+      </h2>
+      <span class="letter-sub">こどもの日 · 어린이날 · 5 Mei</span>
+      <div class="letter-divider"></div>
+
+      <div class="letter-body">
+        Setiap tahun, dunia mendongak menatap koinobori yang terbang di langit Mei yang biru. Ikan-ikan warna-warni itu berenang di udara, bukan di air. Mereka pergi ke mana angin membawa mereka, tanpa meminta izin, tanpa ragu.
+
+        <span class="em-line">Ada sesuatu yang diam diam istimewa dari seseorang yang lahir di hari ini. Hari yang dunia dedikasikan untuk kegembiraan. Untuk rasa ingin tahu. Untuk jiwa yang belum membiarkan dunia mengecilkan dirinya menjadi sesuatu yang biasa.</span>
+
+        Hari anak bukan hanya tentang anak-anak kecil. Ia adalah tentang yang muda dalam diri seseorang yaitu bagian yang masih percaya, yang masih bermimpi dengan warna penuh, yang tidak butuh alasan untuk tersenyum.
+
+        <span class="em-line">Dan jika ada seorang anak yang berpikir tentang mimpi dan jati dirinya, maka tanggal ini terasa seperti hari yang tepat untuk mengingatnya.</span>
+
+        Ikan mas tidak bertanya apakah ia layak menjadi naga.
+        Ia berenang saja. Dan angin tahu ke mana harus membawanya.
+
+        <span class="gold-line">お誕生日おめでとう。<em style="font-size:.8em;opacity:.7;"> — Selamat ulang tahun.</em><br>생일 축하해요. <em style="font-size:.8em;opacity:.7;"> — Semoga hari ini seindah yang kamu layak terima.</em></span>
+
+        <span class="faint-line">— dari angin, dan dari seseorang yang mengingat ✦</span>
+      </div>
+
+      <div class="letter-footer">
+        <p class="letter-sign">
+          dengan hangat,<br>
+          <small>— seorang musafir bulan Mei yang sama</small>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Icon footer -->
+  <div class="icon-footer reveal" style="transition-delay:.3s;">
+    <div class="icon-footer-item">
+      <div class="if-icon">🎏</div>
+      <p>こどもの日</p>
+    </div>
+    <div class="icon-footer-item">
+      <div class="if-icon">🌸</div>
+      <p>어린이날</p>
+    </div>
+    <div class="icon-footer-item">
+      <div class="if-icon">✦</div>
+      <p>5 Mei</p>
+    </div>
+    <div class="icon-footer-item">
+      <div class="if-icon">🐟</div>
+      <p>鯉のぼり</p>
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link reveal" style="transition-delay:.5s;">
+    ↑ &nbsp; kembali ke awal
+  </a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="shared.js"></script>
+<script>
+cursor.style.background='var(--koi-gold)';
+cursorTrail.style.borderColor='var(--koi-gold)';
+
+// Stars
+const starsEl = document.getElementById('stars2');
+for(let i=0;i<100;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const sz=Math.random()*2.5+.4;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*6}s;animation-duration:${2+Math.random()*4}s;`;
+  starsEl.appendChild(s);
+}
+
+// Fireflies
+const ffEl = document.getElementById('fireflies');
+for(let i=0;i<28;i++){
+  const f=document.createElement('div');
+  f.className='firefly';
+  const tx=(Math.random()-.5)*400;
+  const ty=(Math.random()-.5)*400;
+  const sz=2+Math.random()*3;
+  f.style.cssText=`
+    width:${sz}px;height:${sz}px;
+    left:${Math.random()*100}%;top:${Math.random()*100}%;
+    --tx:${tx}px;--ty:${ty}px;
+    animation-duration:${4+Math.random()*7}s;
+    animation-delay:${Math.random()*5}s;
+  `;
+  ffEl.appendChild(f);
+}
+
+// Lanterns
+const lEl = document.getElementById('lanterns');
+const lData = [
+  {t:'12%',l:'7%',dur:'4s',sz:'2.2rem',delay:'0s'},
+  {t:'22%',r:'10%',dur:'5.5s',sz:'1.6rem',delay:'-2s'},
+  {t:'60%',l:'4%',dur:'3.8s',sz:'1.8rem',delay:'-1s'},
+  {b:'20%',r:'7%',dur:'4.8s',sz:'2rem',delay:'-3s'},
+  {b:'40%',l:'18%',dur:'3.2s',sz:'1.4rem',delay:'-1.5s'},
+];
+lData.forEach(d=>{
+  const l=document.createElement('div');
+  l.className='lantern';
+  l.textContent='🏮';
+  let st=`animation-duration:${d.dur};`;
+  if(d.delay) st+=`animation-delay:${d.delay};`;
+  if(d.t) st+=`top:${d.t};`;
+  if(d.b) st+=`bottom:${d.b};`;
+  if(d.l) st+=`left:${d.l};`;
+  if(d.r) st+=`right:${d.r};`;
+  if(d.sz) st+=`font-size:${d.sz};`;
+  l.style.cssText=st;
+  lEl.appendChild(l);
+});
+</script>
+</body>
+</html>

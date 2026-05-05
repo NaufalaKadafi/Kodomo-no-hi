@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koinobori · Scrapbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Caveat:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background:linear-gradient(180deg,#D4EEF9 0%,#C2E5F5 50%,#B5DDF2 100%); }
+
+  /* clouds */
+  .clouds { position:fixed;inset:0;pointer-events:none;overflow:hidden; }
+  .c1,.c2,.c3 { position:absolute; background:rgba(255,255,255,.8); border-radius:50px; }
+  .c1 { width:130px;height:42px;top:12%;animation:floatCloud 38s linear infinite; }
+  .c1::before { content:'';position:absolute;background:inherit;border-radius:50%;width:65px;height:65px;top:-28px;left:15px; }
+  .c1::after  { content:'';position:absolute;background:inherit;border-radius:50%;width:45px;height:45px;top:-18px;left:55px; }
+  .c2 { width:85px;height:30px;top:38%;animation:floatCloud 26s linear infinite;animation-delay:-11s;opacity:.55; }
+  .c2::before { content:'';position:absolute;background:inherit;border-radius:50%;width:42px;height:42px;top:-18px;left:10px; }
+  .c2::after  { content:'';position:absolute;background:inherit;border-radius:50%;width:30px;height:30px;top:-13px;left:36px; }
+  .c3 { width:170px;height:52px;top:62%;animation:floatCloud 46s linear infinite;animation-delay:-22s; }
+  .c3::before { content:'';position:absolute;background:inherit;border-radius:50%;width:85px;height:85px;top:-38px;left:20px; }
+  .c3::after  { content:'';position:absolute;background:inherit;border-radius:50%;width:65px;height:65px;top:-27px;left:75px; }
+
+  /* page ribbon */
+  .page-ribbon {
+    background: linear-gradient(135deg,#4A90D9 0%,#2A5FA8 100%);
+    color:white; padding:1.5rem 0; position:relative; overflow:hidden;
+  }
+  .page-ribbon::after {
+    content:'鯉のぼり'; font-family:'Shippori Mincho',serif;
+    position:absolute;right:-1rem;top:-1rem;
+    font-size:5rem;color:rgba(255,255,255,.08);
+  }
+  .ribbon-num { font-family:'Shippori Mincho',serif;font-size:5rem;font-weight:800;color:rgba(255,255,255,.14);line-height:1; }
+  .ribbon-title { font-family:'Shippori Mincho',serif;font-size:clamp(1.4rem,3vw,2.2rem);font-weight:800;color:white; }
+  .ribbon-sub { font-family:'Caveat',cursive;font-size:1rem;color:rgba(255,255,255,.75);letter-spacing:.1em;margin-top:.3rem; }
+
+  /* interactive fish cards */
+  .fish-card {
+    background:white; border-radius:16px; padding:1.2rem;
+    display:flex;align-items:center;gap:1rem;
+    border-left:5px solid var(--card-color,var(--koi-red));
+    transition:all .3s; cursor:default;
+    box-shadow:0 2px 12px rgba(26,39,68,.06);
+  }
+  .fish-card:hover { transform:translateX(5px); box-shadow:0 8px 24px rgba(26,39,68,.1); }
+  .fish-card .fish-emoji { font-size:2rem; flex-shrink:0; }
+  .fish-card h6 { font-family:'Shippori Mincho',serif;font-size:.9rem;font-weight:700;color:var(--ink);margin:0 0 .15rem; }
+  .fish-card p { font-size:.78rem;color:#888;margin:0;line-height:1.45; }
+
+  /* scene koinobori SVG-like */
+  .koinobori-scene {
+    display:flex; justify-content:center;
+    gap:3rem; align-items:flex-end;
+    padding:2rem 0;
+    position:relative;
+  }
+  .koi-pole-unit { display:flex;flex-direction:column;align-items:center; position:relative; }
+  .koi-pole-bar  { width:3px; height:200px; background:linear-gradient(to bottom,#9B825A,rgba(155,130,90,.1)); }
+  .koi-stack { position:absolute; top:0; left:5px; display:flex;flex-direction:column;gap:10px;padding-top:14px; }
+  .koi-label {
+    position:absolute; bottom:-2rem; left:50%; transform:translateX(-50%);
+    font-family:'Caveat',cursive; font-size:.8rem;
+    color:#4A90D9; white-space:nowrap;
+  }
+</style>
+</head>
+<body>
+<div class="clouds"><div class="c1"></div><div class="c2"></div><div class="c3"></div></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+<div class="reading-progress" id="readingProgress"></div>
+<div id="petalsContainer"></div>
+
+<nav class="page-nav">
+  <a href="index.html"></a>
+  <a href="koinobori.html" class="active"></a>
+  <a href="filosofi1.html"></a>
+  <a href="filosofi2.html"></a>
+  <a href="eorini.html"></a>
+  <a href="festival.html"></a>
+  <a href="penutup.html"></a>
+</nav>
+
+<!-- RIBBON -->
+<div class="page-ribbon">
+  <div class="container">
+    <div class="d-flex align-items-end gap-3">
+      <span class="ribbon-num">02</span>
+      <div>
+        <h2 class="ribbon-title">鯉のぼり — Koinobori</h2>
+        <p class="ribbon-sub">Bendera Ikan Mas yang Terbang di Angin · Simbol Keberanian Hidup</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-5">
+  <div class="row g-5 align-items-start">
+
+    <!-- KIRI: adegan koinobori + kartu ikan -->
+    <div class="col-lg-5 reveal-left">
+      <!-- Adegan visual -->
+      <div class="koinobori-scene">
+        <div class="koi-pole-unit">
+          <div class="koi-pole-bar"></div>
+          <div class="koi-stack">
+            <div class="koinobori-fish kf-black"></div>
+            <div class="koinobori-fish kf-red"  style="animation-delay:.3s;"></div>
+            <div class="koinobori-fish kf-blue" style="animation-delay:.6s;"></div>
+            <div class="koinobori-fish kf-gold" style="animation-delay:.9s;"></div>
+          </div>
+          <span class="koi-label">tiang utama</span>
+        </div>
+        <div class="koi-pole-unit" style="transform:scale(.75);transform-origin:bottom center;">
+          <div class="koi-pole-bar" style="height:140px;"></div>
+          <div class="koi-stack" style="padding-top:10px;">
+            <div class="koinobori-fish kf-black"></div>
+            <div class="koinobori-fish kf-red" style="animation-delay:.5s;"></div>
+            <div class="koinobori-fish kf-blue" style="animation-delay:1s;"></div>
+          </div>
+          <span class="koi-label" style="bottom:-1.8rem;">tiang pendamping</span>
+        </div>
+      </div>
+
+      <!-- Kartu makna setiap ikan -->
+      <div class="d-flex flex-column gap-2 mt-4">
+        <div class="fish-card" style="--card-color:#2C2C2C;">
+          <span class="fish-emoji">⬛</span>
+          <div>
+            <h6>Magoi · 黒鯉 · Ikan Hitam</h6>
+            <p>Mewakili ayah digantung paling atas. Simbol kekuatan dan keteguhan yang melindungi keluarga.</p>
+          </div>
+        </div>
+        <div class="fish-card" style="--card-color:var(--koi-red);">
+          <span class="fish-emoji">🔴</span>
+          <div>
+            <h6>Higoi · 赤鯉 · Ikan Merah</h6>
+            <p>Mewakili ibu kehangatan, kelembutan, dan kasih sayang tanpa batas yang menjadi akar keluarga.</p>
+          </div>
+        </div>
+        <div class="fish-card" style="--card-color:#4A90D9;">
+          <span class="fish-emoji">🔵</span>
+          <div>
+            <h6>Aoi Koi · 青鯉 · Ikan Biru</h6>
+            <p>Mewakili anak anak kebebasan, kegembiraan, dan jiwa yang selalu bergerak ke depan.</p>
+          </div>
+        </div>
+        <div class="fish-card" style="--card-color:var(--koi-gold);">
+          <span class="fish-emoji">🟡</span>
+          <div>
+            <h6>Midori / Murasaki · 緑 / 紫 · Ikan Warna</h6>
+            <p>Mewakili kehidupan baru sering ditambahkan untuk anggota keluarga tambahan, harapan, dan pertumbuhan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KANAN: filosofi + timeline -->
+    <div class="col-lg-7 reveal-right">
+      <div class="note-paper mb-4">
+        <span class="section-label">Mengapa Ikan Mas?</span>
+        <p style="font-size:.9rem;color:#555;line-height:1.95;padding-left:1.5rem;">
+          Dalam legenda Tiongkok dan Jepang, seekor ikan mas yang berhasil berenang melawan arus deras di Air Terjun Gerbang Naga (<em>Ryūmon</em> · 龍門) — berubah menjadi naga. Naga ini cocok menjadi simbol ketekunan, tekad, dan keinginan yang rasakan oleh anak anak yang manis.
+        </p>
+        <p style="font-size:.87rem;color:#888;line-height:1.9;padding-left:1.5rem;margin-top:.8rem;font-style:italic;">
+          "Itulah doa yang dibisikkan setiap koinobori kepada angin — semoga anak anak kuat untuk melawan arus, dan menjadi sesuatu yang bernilai."
+        </p>
+      </div>
+
+      <!-- Timeline -->
+      <span class="section-label">Perjalanan Sejarah</span>
+      <div class="timeline-wrap mt-3">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">奈良時代 · ~710 M</div>
+          <p class="timeline-text">Tango no Sekku (端午の節句) pertama kali dirayakan di Jepang, diadopsi dari tradisi festival Duanwu Tiongkok yang memakai tanaman beraroma untuk mengusir roh jahat.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--koi-gold);"></div>
+          <div class="timeline-year">江戸時代 · Periode Edo (1603–1868)</div>
+          <p class="timeline-text">Keluarga samurai mulai mengibarkan koinobori untuk mendoakan keberanian dan kesehatan putra mereka. Lambat laun tradisi ini menyebar ke seluruh lapisan masyarakat.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--koi-teal);"></div>
+          <div class="timeline-year">1948</div>
+          <p class="timeline-text">Jepang menetapkan 5 Mei sebagai hari libur nasional <em>Kodomo no Hi</em> — kini merayakan <strong>semua</strong> anak, bukan hanya laki-laki. Semangat hari ini menjadi universal.</p>
+        </div>
+        <div class="timeline-item" style="padding-bottom:0;">
+          <div class="timeline-dot" style="background:var(--koi-orange);"></div>
+          <div class="timeline-year">Hari ini</div>
+          <p class="timeline-text">Jutaan koinobori terbang di atas sungai, taman, dan atap rumah — lautan warna yang bergerak di bawah langit biru Mei. Sebuah pemandangan yang hanya ada sekali setahun.</p>
+        </div>
+      </div>
+
+      <!-- Fakta menarik -->
+      <div class="info-card mt-4" style="border-left-color:var(--koi-teal);">
+        <span class="section-label" style="color:var(--koi-teal);">Tahukah Kamu? · 知ってた？</span>
+        <p style="font-size:.87rem;color:#555;line-height:1.8;margin:0;">
+          Koinobori terbesar di dunia berada di Kōnosu, Prefektur Saitama — panjangnya mencapai <strong style="color:var(--ink);">100 meter</strong> dan beratnya sekitar 350 kg. Setiap Mei, ia diangkat menggunakan crane khusus dan menjadi atraksi ribuan pengunjung.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-5 reveal">
+    <a href="filosofi1.html" class="next-btn" style="--next-color:#4A90D9"><span>Berikutnya Anak-anak</span><span class="next-arrow">→</span></a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="shared.js"></script>
+<script>
+cursor.style.background='#4A90D9';
+cursorTrail.style.borderColor='#4A90D9';
+</script>
+</body>
+</html>

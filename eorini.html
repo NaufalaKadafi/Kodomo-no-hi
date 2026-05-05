@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eorini Nal · Scrapbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Caveat:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background:var(--koi-cream); }
+
+  .korea-bg {
+    position:fixed; inset:0; pointer-events:none;
+    background-image:
+      repeating-linear-gradient(45deg,transparent,transparent 50px,rgba(42,157,143,.025) 50px,rgba(42,157,143,.025) 51px),
+      repeating-linear-gradient(-45deg,transparent,transparent 50px,rgba(232,68,58,.02) 50px,rgba(232,68,58,.02) 51px);
+  }
+
+  /* page ribbon */
+  .page-ribbon {
+    background:linear-gradient(135deg,#C8102E 0%,#A00020 100%);
+    color:white; padding:1.5rem 0; position:relative; overflow:hidden;
+  }
+  .page-ribbon::after {
+    content:'어린이날'; font-family:'Noto Sans KR',sans-serif;
+    position:absolute;right:-1rem;top:-1rem;
+    font-size:4rem;color:rgba(255,255,255,.08);
+  }
+  .ribbon-num { font-family:'Shippori Mincho',serif;font-size:5rem;font-weight:800;color:rgba(255,255,255,.15);line-height:1; }
+  .ribbon-title { font-family:'Shippori Mincho',serif;font-size:clamp(1.4rem,3vw,2.2rem);font-weight:800;color:white; }
+  .ribbon-sub { font-family:'Caveat',cursive;font-size:1rem;color:rgba(255,255,255,.75);letter-spacing:.1em;margin-top:.3rem; }
+
+  /* symbol grid 3-col */
+  .sym-grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+
+  /* founder card */
+  .founder-card {
+    background: linear-gradient(135deg,var(--koi-navy) 0%,#1E3A6E 100%);
+    border-radius:24px; padding:2.5rem;
+    position:relative; overflow:hidden;
+  }
+  .founder-card::before {
+    content:'"'; position:absolute;
+    top:-1.5rem;left:1.5rem;
+    font-family:'Playfair Display',serif; font-size:10rem;
+    color:rgba(255,255,255,.05); line-height:1;
+  }
+  .founder-quote {
+    font-family:'Playfair Display',serif; font-style:italic;
+    font-size:clamp(1rem,2vw,1.3rem);
+    color:white; line-height:1.8;
+    position:relative;z-index:1;
+  }
+  .founder-original {
+    font-family:'Noto Sans KR',sans-serif;
+    font-size:1rem; font-weight:700;
+    color:rgba(255,255,255,.75);
+    margin-bottom:.5rem; position:relative;z-index:1;
+  }
+  .founder-src {
+    font-family:'Caveat',cursive;
+    color:var(--koi-gold); font-size:.88rem;
+    margin-top:.8rem; position:relative;z-index:1;
+  }
+
+  /* timeline korea */
+  .timeline-korea .timeline-dot { background:#C8102E; border-color:var(--koi-cream); }
+</style>
+</head>
+<body>
+<div class="korea-bg"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+<div class="reading-progress" id="readingProgress"></div>
+<div id="petalsContainer"></div>
+
+<nav class="page-nav">
+  <a href="index.html"></a>
+  <a href="koinobori.html"></a>
+  <a href="filosofi1.html"></a>
+  <a href="filosofi2.html"></a>
+  <a href="eorini.html" class="active"></a>
+  <a href="festival.html"></a>
+  <a href="penutup.html"></a>
+</nav>
+
+<!-- RIBBON -->
+<div class="page-ribbon">
+  <div class="container">
+    <div class="d-flex align-items-end gap-3">
+      <span class="ribbon-num">05</span>
+      <div>
+        <h2 class="ribbon-title">어린이날 — Eorini Nal</h2>
+        <p class="ribbon-sub">Hari Ketika Anak-anak Mekar · Perayaan Hari Anak Korea Selatan</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-5">
+  <div class="row g-5 align-items-start mb-5">
+
+    <!-- KIRI: founder + sejarah -->
+    <div class="col-lg-6 reveal-left">
+      <span class="section-label">Korea · 어린이날</span>
+      <h2 class="big-heading mb-4" style="font-size:clamp(1.6rem,3.5vw,2.8rem);">
+        Eorini Nal —<br>
+        <em class="serif-italic" style="color:#C8102E;font-weight:400;">Ketika Keberanian<br>Datang dari Bawah</em>
+      </h2>
+
+      <!-- Founder quote -->
+      <div class="founder-card mb-4">
+        <p class="founder-original">"어린이를 내려다보지 마시고 쳐다보아 주시오."</p>
+        <p class="founder-quote">"Jangan menatap anak-anak dari atas ke bawah.<br>Tataplah mereka dari bawah ke atas."</p>
+        <p class="founder-src">— Bang Jeong-hwan (방정환) · Pendiri Gerakan Anak Korea, 1923</p>
+      </div>
+
+      <p style="color:#666;line-height:1.95;font-size:.9rem;margin-bottom:1rem;">
+        Bang Jeong-hwan — yang menulis dengan nama pena <strong style="color:var(--ink);">Sowol (소월)</strong> — memulai gerakan anak Korea pada 1923, di tengah pendudukan Jepang. Idenya terasa radikal untuk zamannya: bahwa anak-anak berhak atas <strong style="color:var(--ink);">martabat, bukan sekadar kepatuhan</strong>. Bahwa mereka adalah manusia utuh yang layak dihormati.
+      </p>
+      <p style="color:#888;line-height:1.9;font-size:.87rem;">
+        Ia bahkan menciptakan kata baru — <em style="color:var(--ink);">어린이 (eorini)</em> — untuk mengganti istilah lama yang terasa meremehkan. Sebuah tindakan sederhana dengan dampak yang luar biasa: bagaimana kita memanggil seseorang mencerminkan bagaimana kita memandang mereka.
+      </p>
+
+      <!-- Timeline sejarah korea -->
+      <div class="timeline-wrap timeline-korea mt-4">
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:#C8102E;"></div>
+          <div class="timeline-year" style="color:#C8102E;">1923</div>
+          <p class="timeline-text">Bang Jeong-hwan menerbitkan majalah <em>Eorini</em> (어린이) — literatur pertama yang ditulis <em>untuk</em> anak-anak Korea. Hari anak pertama dirayakan 1 Mei.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--koi-gold);border-color:var(--koi-cream);"></div>
+          <div class="timeline-year" style="color:var(--koi-gold);">1945 — Kemerdekaan</div>
+          <p class="timeline-text">Setelah Korea merdeka dari Jepang, perayaan hari anak dihidupkan kembali dengan semangat baru — kini sebagai simbol kebebasan dan harapan bangsa.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--koi-teal);border-color:var(--koi-cream);"></div>
+          <div class="timeline-year" style="color:var(--koi-teal);">1975</div>
+          <p class="timeline-text">Korea Selatan secara resmi menetapkan 5 Mei sebagai hari libur nasional — menandai pengakuan negara bahwa anak-anak adalah prioritas bangsa.</p>
+        </div>
+        <div class="timeline-item" style="padding-bottom:0;">
+          <div class="timeline-dot" style="background:var(--koi-orange);border-color:var(--koi-cream);"></div>
+          <div class="timeline-year" style="color:var(--koi-orange);">Hari ini</div>
+          <p class="timeline-text">Jutaan keluarga mengisi taman hiburan, mengadakan piknik, dan memberikan hadiah istimewa. Sebuah hari yang terasa seperti puncak kegembiraan musim semi Korea.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- KANAN: simbol + kuis -->
+    <div class="col-lg-6 reveal-right">
+      <span class="section-label mb-3 d-block">Simbol &amp; Tradisi Eorini Nal</span>
+      <div class="sym-grid-3 mb-4">
+        <div class="symbol-item">
+          <span class="sym-emoji">🎠</span>
+          <h6>Taman Hiburan</h6>
+          <p>Lotte World &amp; Everland dipenuhi keluarga — tawa anak menjadi tradisi nasional</p>
+        </div>
+        <div class="symbol-item">
+          <span class="sym-emoji">🎁</span>
+          <h6>Pemberian Hadiah</h6>
+          <p>Orang tua memanjakan anak dengan hadiah istimewa — tradisi paling dinantikan</p>
+        </div>
+        <div class="symbol-item">
+          <span class="sym-emoji">🌸</span>
+          <h6>Bunga Mei Korea</h6>
+          <p>Musim semi puncak — sakura &amp; bunga Hibiscus (부케) mekar bersamaan</p>
+        </div>
+        <div class="symbol-item">
+          <span class="sym-emoji">🎭</span>
+          <h6>Pertunjukan Budaya</h6>
+          <p>Pertunjukan boneka, teater jalanan &amp; festival seni mengisi ruang publik</p>
+        </div>
+        <div class="symbol-item">
+          <span class="sym-emoji">👨‍👩‍👧‍👦</span>
+          <h6>Hari Keluarga</h6>
+          <p>Sekaligus merayakan pengorbanan orang tua dan kehangatan keluarga inti</p>
+        </div>
+        <div class="symbol-item">
+          <span class="sym-emoji">📚</span>
+          <h6>Majalah Eorini</h6>
+          <p>Warisan Bang Jeong-hwan — literatur anak pertama yang menghormati pembacanya</p>
+        </div>
+      </div>
+
+      <!-- Kuis interaktif -->
+      <div class="info-card" style="border-left-color:var(--koi-teal);">
+        <span class="section-label" style="color:var(--koi-teal);">Kuis Singkat · 퀴즈 🎯</span>
+        <p style="font-size:.88rem;color:var(--ink);font-weight:600;margin-bottom:.75rem;">
+          Pada tahun berapa Korea Selatan secara resmi menetapkan 5 Mei sebagai hari libur nasional?
+        </p>
+        <div>
+          <button class="quiz-option" onclick="checkAnswer(this,false,2,'qr')">1919</button>
+          <button class="quiz-option" onclick="checkAnswer(this,false,2,'qr')">1945</button>
+          <button class="quiz-option" onclick="checkAnswer(this,true,2,'qr')">1975</button>
+          <button class="quiz-option" onclick="checkAnswer(this,false,2,'qr')">1988</button>
+        </div>
+        <p class="quiz-result" id="qr"></p>
+      </div>
+
+      <!-- Fun fact -->
+      <div class="d-flex gap-3 mt-3 p-3 align-items-start" style="background:rgba(200,16,46,.05);border-radius:12px;border-left:4px solid #C8102E;">
+        <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">🏮</span>
+        <div>
+          <h6 style="font-family:'Shippori Mincho',serif;font-size:.9rem;font-weight:700;color:var(--ink);margin:0 0 .3rem;">어린이 (Eorini)</h6>
+          <p style="font-size:.8rem;color:#666;margin:0;line-height:1.7;">Kata ini terdiri dari <em>"eori"</em> (어리 = muda/kecil) + akhiran hormat <em>"-ni"</em>. Bang Jeong-hwan sengaja memilih akhiran yang sama dengan panggilan hormat kepada orang yang lebih tua — sebuah pernyataan bahwa anak-anak berhak diperlakukan setara.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-4 reveal">
+    <a href="festival.html" class="next-btn" style="--next-color:#C8102E"><span>Berikutnya Festival 5 Mei</span><span class="next-arrow">→</span></a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="shared.js"></script>
+<script>
+cursor.style.background='#C8102E';
+cursorTrail.style.borderColor='#C8102E';
+</script>
+</body>
+</html>

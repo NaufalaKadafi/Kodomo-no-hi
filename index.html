@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>こどもの日 · Scrapbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Caveat:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+
+/*COVER HERO*/
+#cover {
+  height: 100vh; min-height: 600px;
+  position: relative;
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  overflow: hidden;
+  background: #060C1A;
+}
+.sky {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    #060C1A 0%,
+    #0D1B35 45%,
+    #1A2744 80%,
+    #1E1525 100%   /* ← ujung bawah hero */
+  );
+}
+#stars { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+
+.pole-left  { position:absolute;top:0;left:9%;width:3px;height:58vh;background:linear-gradient(to bottom,#9B825A,transparent); }
+.pole-left .fish-stack { position:absolute;top:10vh;left:5px;display:flex;flex-direction:column;gap:10px; }
+.pole-right { position:absolute;top:0;right:11%;width:2px;height:42vh;background:linear-gradient(to bottom,#9B825A,transparent); }
+.pole-right .fish-stack { position:absolute;top:7vh;left:4px;display:flex;flex-direction:column;gap:8px; }
+.pole-right .koinobori-fish { width:46px;height:19px; }
+.pole-right .koinobori-fish::after { border-left-width:10px;border-top-width:6px;border-bottom-width:6px; }
+
+.koi-swim { position:absolute;pointer-events:none;animation:swimAcross linear infinite;opacity:.11; }
+
+.glow-ring {
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-62%);
+  width:440px;height:440px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,68,58,.11) 0%,transparent 70%);
+  pointer-events:none;z-index:5;
+}
+
+.cover-content { position:relative;z-index:10;text-align:center;padding:2rem; }
+.c-eyebrow {
+  font-family:'Caveat',cursive; color:var(--koi-gold); font-size:1.05rem;
+  letter-spacing:.45em; text-transform:uppercase;
+  opacity:0; animation:fadeUp 1s .4s forwards;
+}
+.c-kanji {
+  font-family:'Shippori Mincho',serif; font-weight:800;
+  font-size:clamp(3.8rem,9vw,7.5rem); color:#fff; line-height:1;
+  opacity:0; animation:fadeUp 1s .75s forwards;
+  text-shadow:0 0 80px rgba(232,68,58,.45),0 0 160px rgba(232,68,58,.18);
+}
+.c-title {
+  font-family:'Playfair Display',serif; font-style:italic;
+  font-size:clamp(1.05rem,2.8vw,1.85rem); color:var(--koi-pink); letter-spacing:.07em;
+  opacity:0; animation:fadeUp 1s 1.1s forwards; margin-top:.4rem;
+}
+.c-langs {
+  font-family:'Caveat',cursive; font-size:.92rem;
+  color:rgba(255,255,255,.32); margin-top:.8rem; letter-spacing:.15em;
+  opacity:0; animation:fadeUp 1s 1.45s forwards;
+}
+.c-divider {
+  width:55px;height:1px;background:rgba(255,255,255,.14);
+  margin:1.3rem auto; opacity:0; animation:fadeUp 1s 1.7s forwards;
+}
+.c-meta {
+  font-family:'Shippori Mincho',serif; font-size:.74rem;
+  letter-spacing:.3em; color:rgba(255,255,255,.18);
+  opacity:0; animation:fadeUp 1s 1.9s forwards;
+}
+
+/* scroll hint */
+.scroll-hint {
+  position:absolute; bottom:2.2rem; left:50%;
+  transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  z-index:10; cursor:pointer;
+  opacity:0; animation:fadeUp 1s 2.4s forwards;
+}
+.scroll-hint span { font-family:'Caveat',cursive;color:rgba(255,255,255,.28);font-size:.78rem;letter-spacing:.2em; }
+.scroll-arrow-anim { width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,.32),transparent);animation:pulse 2s ease-in-out infinite; }
+.scroll-chevron { color:rgba(255,255,255,.22);font-size:1rem;animation:pulse 2s ease-in-out infinite;line-height:1; }
+
+/* ── GRADIENT TRANSITION (langit → washi) ──────── */
+.sky-to-washi {
+  height: 100px;
+  background: linear-gradient(to bottom, #1A2035, #FAF3E0);
+}
+
+/* ── KODOMO SECTION ─────────────────────────────── */
+#kodomo {
+  background:var(--washi);
+  position:relative;
+  padding:0 0 5rem;
+}
+.washi-bg {
+  position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 15% 50%,rgba(242,169,59,.07) 0%,transparent 45%),
+    radial-gradient(circle at 85% 20%,rgba(232,68,58,.05) 0%,transparent 40%),
+    radial-gradient(circle at 50% 90%,rgba(42,157,143,.04) 0%,transparent 40%);
+  pointer-events:none;
+}
+.bg-kanji {
+  position:absolute;right:-2rem;bottom:-3rem;
+  font-family:'Shippori Mincho',serif;font-size:26rem;font-weight:800;
+  color:rgba(26,39,68,.035);line-height:1;
+  pointer-events:none;user-select:none;
+}
+
+.section-ribbon {
+  background:linear-gradient(135deg,var(--koi-red) 0%,var(--koi-orange) 100%);
+  padding:1.4rem 0; position:relative; overflow:hidden; margin-bottom:3rem;
+}
+.section-ribbon::after {
+  content:'こどもの日';font-family:'Shippori Mincho',serif;font-weight:800;
+  position:absolute;right:-1rem;top:-1rem;
+  font-size:4.5rem;color:rgba(255,255,255,.09);white-space:nowrap;
+}
+.ribbon-num   { font-family:'Shippori Mincho',serif;font-size:4.5rem;font-weight:800;color:rgba(255,255,255,.15);line-height:1; }
+.ribbon-title { font-family:'Shippori Mincho',serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:800;color:white; }
+.ribbon-sub   { font-family:'Caveat',cursive;font-size:.95rem;color:rgba(255,255,255,.72);letter-spacing:.1em;margin-top:.25rem; }
+
+.pol-grid { display:grid;grid-template-columns:1fr 1fr;gap:1.3rem; }
+
+.country-card {
+  background:white;border-radius:16px;padding:1.4rem 1.1rem;
+  text-align:center;border:1px solid rgba(26,39,68,.07);
+  transition:all .3s;cursor:default;position:relative;overflow:hidden;
+}
+.country-card::after {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--koi-gold),var(--koi-orange));
+  opacity:0;transition:opacity .3s;
+}
+.country-card:hover::after { opacity:.07; }
+.country-card:hover { transform:translateY(-5px);box-shadow:0 18px 38px rgba(26,39,68,.1); }
+.country-card .flag { display:flex;justify-content:center;align-items:center;margin-bottom:.2rem; }
+.country-card .flag img { width:48px;height:32px;object-fit:cover;border-radius:5px;box-shadow:0 2px 8px rgba(0,0,0,.13); }
+.country-card h5 { font-family:'Shippori Mincho',serif;font-size:.92rem;font-weight:700;color:var(--ink);margin:.4rem 0 .1rem; }
+.country-card .date-tag { font-family:'Caveat',cursive;font-size:.95rem;color:var(--koi-red);font-weight:700; }
+.country-card .local-name { font-size:.72rem;color:#999;margin-top:.22rem;line-height:1.4; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+<div class="reading-progress" id="readingProgress"></div>
+<div id="petalsContainer"></div>
+
+<nav class="page-nav">
+  <a href="index.html" class="active" title="Cover · Kodomo no Hi"></a>
+  <a href="koinobori.html" title="Koinobori"></a>
+  <a href="filosofi1.html" title="Filosofi Anak I"></a>
+  <a href="filosofi2.html" title="Filosofi Anak II"></a>
+  <a href="eorini.html" title="Eorini Nal"></a>
+  <a href="festival.html" title="Festival"></a>
+  <a href="penutup.html" title="Penutup"></a>
+</nav>
+
+<!-- ══════════ HERO COVER ══════════ -->
+<section id="cover">
+  <div class="sky"></div>
+  <div id="stars"></div>
+
+  <div class="pole-left">
+    <div class="fish-stack">
+      <div class="koinobori-fish kf-black"></div>
+      <div class="koinobori-fish kf-red"  style="animation-delay:.3s;"></div>
+      <div class="koinobori-fish kf-blue" style="animation-delay:.6s;"></div>
+      <div class="koinobori-fish kf-gold" style="animation-delay:.9s;"></div>
+    </div>
+  </div>
+  <div class="pole-right">
+    <div class="fish-stack">
+      <div class="koinobori-fish kf-black"></div>
+      <div class="koinobori-fish kf-red"  style="animation-delay:.4s;"></div>
+      <div class="koinobori-fish kf-gold" style="animation-delay:.8s;"></div>
+    </div>
+  </div>
+
+  <span class="koi-swim" style="top:22%;font-size:3rem;animation-duration:20s;">🐟</span>
+  <span class="koi-swim" style="top:54%;font-size:2rem;animation-duration:27s;animation-delay:-9s;">🐡</span>
+  <span class="koi-swim" style="top:72%;font-size:4rem;animation-duration:17s;animation-delay:-5s;opacity:.07;">🐠</span>
+
+  <div class="glow-ring"></div>
+
+  <div class="cover-content">
+    <p class="c-eyebrow">5 Mei · Setiap Tahun · Di Mana-Mana</p>
+    <h1 class="c-kanji">こどもの日</h1>
+    <p class="c-title">Scrapbook Digital Hari Anak</p>
+    <p class="c-langs">어린이날 · 儿童节 · Journée des Enfants</p>
+    <div class="c-divider"></div>
+    <p class="c-meta">SEBUAH PERAYAAN · TENTANG KEBAHAGIAAN YANG DUNIA RASAKAN</p>
+  </div>
+
+  <div class="scroll-hint" onclick="document.getElementById('kodomo').scrollIntoView({behavior:'smooth'})">
+    <span>gulir ke bawah untuk mulai</span>
+    <div class="scroll-arrow-anim"></div>
+    <span class="scroll-chevron">↓</span>
+  </div>
+</section>
+
+<!-- gradient langit → washi -->
+<div class="sky-to-washi"></div>
+
+<!-- ══════════ KODOMO NO HI ══════════ -->
+<section id="kodomo">
+  <div class="washi-bg"></div>
+  <div class="bg-kanji">祝</div>
+
+  <div class="section-ribbon">
+    <div class="container" style="position:relative;z-index:1;">
+      <div class="d-flex align-items-end gap-3">
+        <span class="ribbon-num">01</span>
+        <div>
+          <h2 class="ribbon-title">こどもの日とは何か</h2>
+          <p class="ribbon-sub">Apa itu Kodomo no Hi? · "Hari Anak-anak"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row g-5 align-items-start mb-5">
+
+      <div class="col-lg-6 reveal-left">
+        <span class="section-label">Jepang · こどもの日</span>
+        <h2 class="big-heading mb-3">
+          Hari Anak —<br>
+          <em class="serif-italic" style="color:var(--koi-red);font-size:.85em;">sebuah perayaan<br>tentang menjadi hidup.</em>
+        </h2>
+        <p style="color:#666;line-height:1.95;font-size:.91rem;">
+          Setiap 5 Mei, Jepang & Korea menyediakan hari khusus untuk merayakan anak anak. Kodomo no Hi (こどもの日) di Jepang dan Eorini Nal (어린이날) di Korea Selatan bukan hanya tentang anak-anak, tapi juga tentang kegembiraan, harapan, dan keajaiban yang mereka bawa ke dunia ini.
+        </p>
+        <p style="color:#888;line-height:1.9;font-size:.87rem;margin-top:1rem;">
+          Awalnya disebut <strong style="color:var(--ink);">Tango no Sekku</strong> (端午の節句 · festival kelima bulan kelima) — sebuah festival era samurai untuk anak laki-laki — hari ini lahir kembali pada 1948 sebagai hari libur nasional untuk <em>semua</em> anak.
+        </p>
+        <div class="d-flex gap-3 align-items-center mt-3 flex-wrap">
+          <div class="stamp">祝 · 5 Mei · お祝い</div>
+          <p class="handwritten" style="color:#aaa;font-size:.85rem;margin:0;">— sudah ada sejak tahun 710 Masehi</p>
+        </div>
+
+        <div class="row g-2 mt-3">
+          <div class="col-6">
+            <div class="info-card" style="padding:1rem;">
+              <div style="font-size:1.4rem;margin-bottom:.3rem;">📅</div>
+              <h6 style="font-family:'Shippori Mincho',serif;font-size:.82rem;font-weight:700;color:var(--ink);margin:0 0 .2rem;">Kapan?</h6>
+              <p style="font-size:.75rem;color:#888;margin:0;line-height:1.5;">5 Mei setiap tahun. Hari libur nasional Jepang sejak 1948.</p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="info-card" style="padding:1rem;">
+              <div style="font-size:1.4rem;margin-bottom:.3rem;">🏯</div>
+              <h6 style="font-family:'Shippori Mincho',serif;font-size:.82rem;font-weight:700;color:var(--ink);margin:0 0 .2rem;">Nama Lama?</h6>
+              <p style="font-size:.75rem;color:#888;margin:0;line-height:1.5;">Tango no Sekku (端午の節句) — festival kelima bulan kelima.</p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="info-card" style="padding:1rem;border-left-color:var(--koi-gold);">
+              <div style="font-size:1.4rem;margin-bottom:.3rem;">🎏</div>
+              <h6 style="font-family:'Shippori Mincho',serif;font-size:.82rem;font-weight:700;color:var(--ink);margin:0 0 .2rem;">Simbol Utama?</h6>
+              <p style="font-size:.75rem;color:#888;margin:0;line-height:1.5;">Koinobori (鯉のぼり · bendera ikan mas) yang berkibar di angin.</p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="info-card" style="padding:1rem;border-left-color:var(--koi-teal);">
+              <div style="font-size:1.4rem;margin-bottom:.3rem;">🍡</div>
+              <h6 style="font-family:'Shippori Mincho',serif;font-size:.82rem;font-weight:700;color:var(--ink);margin:0 0 .2rem;">Makanan Khas?</h6>
+              <p style="font-size:.75rem;color:#888;margin:0;line-height:1.5;">Kashiwamochi (柏餅) — kue beras manis dibungkus daun oak.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 reveal-right">
+        <div class="pol-grid">
+          <div>
+            <div class="polaroid" style="--rot:-3deg;">
+              <div class="polaroid-img" style="padding:0;overflow:hidden;">
+                <img src="foto/koinobori.jpg" alt="Koinobori" style="width:100%;height:100%;object-fit:cover;">
+              </div>
+              <p class="polaroid-caption">Koinobori<br><span style="font-size:.73rem;color:#bbb;">鯉のぼり — bendera ikan mas</span></p>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="polaroid" style="--rot:2deg;">
+              <div class="polaroid-img" style="padding:0;overflow:hidden;">
+                <img src="foto/kabuto.jpg" alt="Kabuto" style="width:100%;height:100%;object-fit:cover;">
+              </div>
+              <p class="polaroid-caption">Kabuto<br><span style="font-size:.73rem;color:#bbb;">兜 — helm samurai</span></p>
+            </div>
+          </div>
+          <div>
+            <div class="polaroid" style="--rot:1.5deg;">
+              <div class="polaroid-img" style="padding:0;overflow:hidden;">
+                <img src="foto/kashiwamochi.jpg" alt="Kashiwamochi" style="width:100%;height:100%;object-fit:cover;">
+              </div>
+              <p class="polaroid-caption">Kashiwamochi<br><span style="font-size:.73rem;color:#bbb;">柏餅 — kue beras oak</span></p>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="polaroid" style="--rot:-2deg;">
+              <div class="polaroid-img" style="padding:0;overflow:hidden;">
+                <img src="foto/shobuyu.jpg" alt="Shobu-yu" style="width:100%;height:100%;object-fit:cover;">
+              </div>
+              <p class="polaroid-caption">Shobu-yu<br><span style="font-size:.73rem;color:#bbb;">菖蒲湯 — mandi iris</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Negara -->
+    <div class="reveal">
+      <span class="section-label text-center d-block mb-4">Negara yang Merayakan Hari Anak pada 5 Mei</span>
+      <div class="row g-3 justify-content-center">
+
+        <div class="col-6 col-md-3">
+          <div class="country-card">
+            <div class="flag">
+              <img src="https://flagcdn.com/w80/jp.png" alt="Bendera Jepang">
+            </div>
+            <h5>Jepang</h5>
+            <div class="date-tag">5 Mei</div>
+            <div class="local-name">こどもの日<br><em>Kodomo no Hi</em></div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="country-card">
+            <div class="flag">
+              <img src="https://flagcdn.com/w80/kr.png" alt="Bendera Korea Selatan">
+            </div>
+            <h5>Korea Selatan</h5>
+            <div class="date-tag">5 Mei</div>
+            <div class="local-name">어린이날<br><em>Eorini Nal</em></div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="country-card">
+            <div class="flag">
+              <img src="https://flagcdn.com/w80/to.png" alt="Bendera Tonga">
+            </div>
+            <h5>Tonga</h5>
+            <div class="date-tag">5 Mei</div>
+            <div class="local-name">Children's Day<br><em>Hari Anak Nasional</em></div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="country-card">
+            <div class="flag">
+              <img src="https://flagcdn.com/w80/un.png" alt="Bendera PBB">
+            </div>
+            <h5>Universal</h5>
+            <div class="date-tag">20 Nov</div>
+            <div class="local-name">World Children's Day<br><em>Hari Anak Sedunia (PBB)</em></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="text-center mt-5 pt-2 reveal">
+      <a href="koinobori.html" class="next-btn" style="--next-color:var(--koi-red)"><span>Berikutnya Koinobori</span><span class="next-arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="shared.js"></script>
+<script>
+// Stars
+const starsEl = document.getElementById('stars');
+for(let i = 0; i < 90; i++){
+  const s = document.createElement('div');
+  s.className = 'star';
+  const sz = Math.random() * 2.5 + .5;
+  s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*5}s;animation-duration:${2+Math.random()*3}s;`;
+  starsEl.appendChild(s);
+}
+// Cursor gold di hero, merah saat masuk kodomo section
+cursor.style.background = 'var(--koi-gold)';
+cursorTrail.style.borderColor = 'var(--koi-gold)';
+
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    cursor.style.background = e.isIntersecting ? 'var(--koi-red)' : 'var(--koi-gold)';
+    cursorTrail.style.borderColor = e.isIntersecting ? 'var(--koi-red)' : 'var(--koi-gold)';
+  });
+}, { threshold: 0.3 }).observe(document.getElementById('kodomo'));
+</script>
+</body>
+</html>

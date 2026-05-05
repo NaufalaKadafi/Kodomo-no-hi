@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filosofi Anak II · Scrapbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Caveat:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+body { background: linear-gradient(160deg,#FFF5F5 0%,#FFF0E8 50%,#FFF8EE 100%); }
+
+.pattern-bg {
+  position:fixed;inset:0;pointer-events:none;
+  background-image:
+    radial-gradient(circle at 70% 20%,rgba(232,68,58,.05) 0%,transparent 40%),
+    radial-gradient(circle at 20% 80%,rgba(42,157,143,.04) 0%,transparent 40%);
+}
+
+.page-ribbon { background:linear-gradient(135deg,var(--koi-teal) 0%,#1A7A6F 100%);color:white;padding:1.5rem 0;position:relative;overflow:hidden; }
+.page-ribbon::after { content:'象徴';font-family:'Shippori Mincho',serif;position:absolute;right:-1rem;top:-1rem;font-size:5rem;color:rgba(255,255,255,.09); }
+.ribbon-num   { font-family:'Shippori Mincho',serif;font-size:5rem;font-weight:800;color:rgba(255,255,255,.14);line-height:1; }
+.ribbon-title { font-family:'Shippori Mincho',serif;font-size:clamp(1.3rem,2.8vw,2rem);font-weight:800;color:white; }
+.ribbon-sub   { font-family:'Caveat',cursive;font-size:1rem;color:rgba(255,255,255,.8);letter-spacing:.1em;margin-top:.3rem; }
+
+.hex-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem; }
+.hex-card { background:white;border-radius:20px;padding:1.5rem 1rem;text-align:center;border:1px solid rgba(26,39,68,.06);transition:all .35s;cursor:default;position:relative;overflow:hidden; }
+.hex-card::before { content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--hc-color,var(--koi-teal));transform:scaleX(0);transform-origin:left;transition:transform .4s; }
+.hex-card:hover::before { transform:scaleX(1); }
+.hex-card:hover { transform:translateY(-5px);box-shadow:0 16px 36px rgba(26,39,68,.1); }
+.hc-icon { font-size:2.2rem;display:block;margin-bottom:.5rem; }
+.hex-card h6 { font-family:'Shippori Mincho',serif;font-size:.88rem;font-weight:700;color:var(--ink);margin:0 0 .3rem; }
+.hex-card p { font-size:.73rem;color:#888;margin:0;line-height:1.5; }
+
+.reflection-card { background:linear-gradient(135deg,var(--koi-navy) 0%,#263A5E 100%);border-radius:24px;padding:2.5rem;position:relative;overflow:hidden; }
+.reflection-card::before { content:'✦';position:absolute;right:2rem;top:1.5rem;font-size:5rem;color:rgba(255,255,255,.06); }
+.reflection-title { font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.1rem,2vw,1.4rem);color:white;line-height:1.7;position:relative;z-index:1; }
+.reflection-note { font-family:'Caveat',cursive;color:var(--koi-gold);font-size:.9rem;margin-top:1rem;position:relative;z-index:1; }
+
+/* ═══════════════════════════════════════
+   SCRAPBOOK KOREA — papan + polaroid
+   Layout berbeda dari filosofi1:
+   3 foto dengan susunan lebih tinggi
+   (1 besar atas + 2 kecil bawah berdampingan)
+═══════════════════════════════════════ */
+
+.scrapboard {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 28px,
+      rgba(26,39,68,.022) 28px,
+      rgba(26,39,68,.022) 29px
+    ),
+    linear-gradient(135deg,#F5F0EB,#EDE5D8);
+  border-radius: 16px;
+  border: 1px solid rgba(26,39,68,.07);
+  padding: 8px;
+  box-shadow:
+    inset 0 2px 8px rgba(26,39,68,.04),
+    0 4px 20px rgba(26,39,68,.07);
+}
+
+.pol {
+  position: absolute;
+  background: white;
+  border-radius: 3px;
+  box-shadow:
+    0 2px 4px rgba(26,39,68,.12),
+    0 6px 16px rgba(26,39,68,.1),
+    0 0 0 1px rgba(26,39,68,.04);
+  cursor: pointer;
+  transition:
+    transform .4s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .3s ease,
+    z-index 0s .4s;
+}
+.pol:hover {
+  box-shadow:
+    0 8px 20px rgba(26,39,68,.18),
+    0 20px 50px rgba(26,39,68,.15),
+    0 0 0 1px rgba(26,39,68,.06);
+  z-index: 99 !important;
+  transition:
+    transform .4s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .3s ease,
+    z-index 0s;
+}
+
+.pol-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #EDE8E0;
+  position: relative;
+}
+.pol-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute; inset: 0;
+}
+
+
+.pol:hover 
+
+
+.pol-inner { padding: 7px 7px 0 7px; }
+.pol-caption {
+  padding: 6px 6px 10px;
+  font-family: 'Caveat', cursive;
+  font-size: .78rem; color: #999;
+  text-align: center;
+}
+
+/* washi tape */
+.tape { position:absolute;height:16px;border-radius:1px;pointer-events:none;z-index:20;opacity:.8; }
+.tape::after { content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0px,transparent 3px,rgba(255,255,255,.35) 3px,rgba(255,255,255,.35) 4px); }
+.t-gold { background:#F2C96B; }
+.t-red  { background:#F4845F; }
+.t-teal { background:#7ECEC6; }
+.t-pink { background:#F7C5C0; }
+.t-blue { background:#A8C8F0; }
+.t-top  { width:42px;left:50%;transform:translateX(-50%);top:-8px; }
+.t-tl   { width:36px;left:4px;top:-8px;transform:rotate(-32deg);transform-origin:left center; }
+.t-tr   { width:36px;right:4px;top:-8px;transform:rotate(32deg);transform-origin:right center; }
+.t-br   { width:36px;right:4px;bottom:-8px;transform:rotate(-32deg);transform-origin:right center; }
+
+.stkr { position:absolute;pointer-events:none;z-index:25;line-height:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.2)); }
+
+/* ── posisi & rotasi 3 polaroid Korea ──
+   Layout: 1 besar di kiri atas menjorok,
+   2 lebih kecil di kanan & bawah kiri
+*/
+
+/* Pol A — besar, kiri-tengah, miring kiri */
+.pol-a {
+  width: 185px;
+  top: 20px;
+  left: 18px;
+  transform: rotate(-5deg);
+  z-index: 2;
+}
+.pol-a:hover { transform: rotate(-5deg) scale(1.05) translateY(-8px); }
+
+/* Pol B — kanan atas, miring kanan */
+.pol-b {
+  width: 155px;
+  top: 14px;
+  right: 14px;
+  transform: rotate(7deg);
+  z-index: 1;
+}
+.pol-b:hover { transform: rotate(7deg) scale(1.06) translateY(-6px); }
+
+/* Pol C — bawah kanan, sedikit miring kiri */
+.pol-c {
+  width: 162px;
+  bottom: 18px;
+  right: 20px;
+  transform: rotate(-4deg);
+  z-index: 3;
+}
+.pol-c:hover { transform: rotate(-4deg) scale(1.06) translateY(-6px); }
+
+/* Pol D — bawah kiri, sangat miring kanan */
+.pol-d {
+  width: 140px;
+  bottom: 14px;
+  left: 70px;
+  transform: rotate(9deg);
+  z-index: 4;
+}
+.pol-d:hover { transform: rotate(9deg) scale(1.06) translateY(-6px); }
+</style>
+</head>
+<body>
+<div class="pattern-bg"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+<div class="reading-progress" id="readingProgress"></div>
+<div id="petalsContainer"></div>
+
+<nav class="page-nav">
+  <a href="index.html"></a>
+  <a href="koinobori.html"></a>
+  <a href="filosofi1.html"></a>
+  <a href="filosofi2.html" class="active"></a>
+  <a href="eorini.html"></a>
+  <a href="festival.html"></a>
+  <a href="penutup.html"></a>
+</nav>
+
+<div class="page-ribbon">
+  <div class="container">
+    <div class="d-flex align-items-end gap-3" style="position:relative;z-index:1;">
+      <span class="ribbon-num">04</span>
+      <div>
+        <h2 class="ribbon-title">Anak-anak sebagai Simbol</h2>
+        <p class="ribbon-sub">Apa yang sesungguhnya diwakili seorang anak · 어린이가 상징하는 것</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-5">
+  <div class="row g-5 align-items-start">
+
+    <!-- ══ KIRI: simbol grid + reflection ══ -->
+    <div class="col-lg-7 reveal-left">
+      <span class="section-label">Seorang Anak sebagai Simbol</span>
+      <h2 class="big-heading mb-3" style="font-size:clamp(1.5rem,3vw,2.5rem);">
+        Dalam Setiap Tradisi,<br>
+        <em class="serif-italic" style="color:var(--koi-teal);font-weight:400;">anak adalah metafora<br>untuk sesuatu yang jauh lebih besar.</em>
+      </h2>
+      <p style="color:#666;line-height:1.95;font-size:.9rem;margin-bottom:1.5rem;">
+        Di hampir setiap kebudayaan, seorang anak bukan sekadar manusia kecil yang belum dewasa. Ia adalah <strong style="color:var(--ink);">simbol hidup</strong> — gambaran dari hal-hal yang dianggap paling berharga oleh sebuah masyarakat.
+      </p>
+
+      <div class="hex-grid">
+        <div class="hex-card" style="--hc-color:var(--koi-gold);">
+          <h6>Kemungkinan Tanpa Batas</h6>
+          <p>Anak belum dibatasi oleh "sudah terlambat". Ia adalah wujud dari segala yang masih bisa terjadi.</p>
+        </div>
+        <div class="hex-card" style="--hc-color:var(--koi-red);">
+          <h6>Api yang Belum Padam</h6>
+          <p>Gairah seorang anak belum pernah dipadamkan oleh kegagalan berulang. Kita rela segalanya untuk menjaganya.</p>
+        </div>
+        <div class="hex-card" style="--hc-color:#4A90D9;">
+          <h6>Kesegaran yang Tak Tertandingi</h6>
+          <p>Seperti air hujan yang baru, anak melihat hal yang sama dengan mata berbeda setiap harinya.</p>
+        </div>
+        <div class="hex-card" style="--hc-color:var(--koi-teal);">
+          <h6>Kecantikan yang Jujur</h6>
+          <p>Anak cantik bukan karena usaha — melainkan karena keaslian. Tidak ada topeng.</p>
+        </div>
+        <div class="hex-card" style="--hc-color:var(--koi-orange);">
+          <h6>Transformasi Berlangsung</h6>
+          <p>Seperti ulat yang belum tahu ia akan jadi kupu-kupu, anak adalah proses yang indah.</p>
+        </div>
+        <div class="hex-card" style="--hc-color:#9B59B6;">
+          <h6>Cahaya yang Menular</h6>
+          <p>Tertawa seorang anak tidak bisa diabaikan. Kegembiraan mereka merembes ke mana-mana.</p>
+        </div>
+      </div>
+
+      <div class="reflection-card mt-4">
+        <p class="reflection-title">
+          "Ketika sebuah festival dirayakan bukan untuk menghormati pencapaian, tapi untuk menghormati <em>keberadaan</em> — itu adalah tanda bahwa sebuah bangsa memahami sesuatu yang mendalam: bahwa cukup menjadi ada, cukup menjadi dirimu sendiri, sudah menjadi sesuatu yang layak dirayakan."
+        </p>
+        <p class="reflection-note">— Tentang Kodomo no Hi &amp; Eorini Nal · 존재 자체로 충분해 <em style="font-size:.78rem;opacity:.7;">(keberadaan itu sudah cukup)</em></p>
+      </div>
+    </div>
+
+    <!-- ══ KANAN: scrapboard Korea ══ -->
+    <div class="col-lg-5 reveal-right">
+
+      <span class="section-label">Korea · 어린이날</span>
+      
+
+      <!-- PAPAN SCRAPBOOK KOREA -->
+      <div class="scrapboard">
+
+        <!-- Pol A — besar kiri -->
+        <div class="pol pol-a">
+          <div class="tape t-teal t-tl"></div>
+          <div class="pol-inner">
+            <div class="pol-photo">
+              <!-- Ganti foto1.jpg dengan nama file fotomu -->
+              <img src="foto/kanak1.jpg" alt="foto 1">
+            </div>
+          </div>
+          <div class="pol-caption">어린이날 🌸</div>
+        </div>
+
+        <!-- Pol B — kanan atas -->
+        <div class="pol pol-b">
+          <div class="tape t-pink t-tr"></div>
+          <div class="pol-inner">
+            <div class="pol-photo">
+              <!-- Ganti foto2.jpg dengan nama file fotomu -->
+              <img src="foto/kanak2.jpg" alt="foto 2">
+            </div>
+          </div>
+          <div class="pol-caption">놀이공원 🎡</div>
+        </div>
+
+        <!-- Pol C — kanan bawah -->
+        <div class="pol pol-c">
+          <div class="tape t-blue t-br"></div>
+          <div class="pol-inner">
+            <div class="pol-photo">
+              <!-- Ganti foto3.jpg dengan nama file fotomu -->
+              <img src="foto/kanak3.jpg" alt="foto 3">
+            </div>
+          </div>
+          <div class="pol-caption">선물 🎁</div>
+        </div>
+
+        <!-- Pol D — bawah tengah -->
+        <div class="pol pol-d">
+          <div class="tape t-red t-top"></div>
+          <div class="pol-inner">
+            <div class="pol-photo">
+              <!-- Ganti foto4.jpg dengan nama file fotomu -->
+              <img src="foto/kanak4.jpg" alt="foto 4">
+            </div>
+          </div>
+          <div class="pol-caption">봄 🌸</div>
+        </div>
+
+        <!-- stiker dekorasi Korea -->
+        <span class="stkr" style="top:8px;left:50%;font-size:1.1rem;transform:rotate(-8deg);">🌺</span>
+        <span class="stkr" style="bottom:8px;left:14px;font-size:1rem;transform:rotate(10deg);">어</span>
+        <span class="stkr" style="top:50%;right:6px;font-size:.85rem;transform:rotate(-5deg);opacity:.5;">🇰🇷</span>
+
+      </div><!-- /scrapboard -->
+
+      <!-- Note + kutipan -->
+      <div class="note-paper mt-3" style="padding:1.1rem;">
+        <span class="section-label" style="color:var(--koi-teal);font-size:.65rem;">Catatan Pinggir · 여백의 메모</span>
+        <p style="font-size:.83rem;color:#666;line-height:1.85;padding-left:1.4rem;margin:0;">
+          Di Korea, kata <strong style="color:var(--ink);">어린이</strong> (eorini) diciptakan oleh Bang Jeong-hwan — untuk mengganti kata lama yang terasa meremehkan anak. Cara kita <em>menyebut</em> seseorang mencerminkan bagaimana kita <em>memandang</em> mereka.
+        </p>
+      </div>
+
+      <div class="d-flex align-items-start gap-3 mt-3 p-3" style="background:rgba(42,157,143,.06);border-radius:12px;border-left:4px solid var(--koi-teal);">
+        <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">🌿</span>
+        <div>
+          <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:.88rem;color:var(--ink);margin:0;line-height:1.7;">"어린이는 어른의 아버지다."<br><span style="font-size:.74rem;color:#888;font-style:normal;">(Anak-anak adalah bapak dari orang dewasa.)</span></p>
+          <p style="font-family:'Caveat',cursive;font-size:.78rem;color:var(--koi-teal);margin:.25rem 0 0;">— adaptasi dari William Wordsworth</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /row -->
+
+  <div class="text-center mt-5 reveal">
+    <a href="eorini.html" class="next-btn" style="--next-color:var(--koi-teal)"><span>Berikutnya Eorini Nal</span><span class="next-arrow">→</span></a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="shared.js"></script>
+<script>
+cursor.style.background = 'var(--koi-teal)';
+cursorTrail.style.borderColor = 'var(--koi-teal)';
+
+
+</script>
+</body>
+</html>
